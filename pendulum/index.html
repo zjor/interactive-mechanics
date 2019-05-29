@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div>
+            <h1>Pendulum</h1>
+            <svg width="500" height="500"></svg>
+        </div>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script src="./dist/bundle.js"></script>
+        <script>
+
+            const width = 500
+            const height = 300
+            
+            const barWidth = 100;
+            const l = 200;
+            const theta = Math.PI / 3
+            const dt = 10.0 / 1000
+
+            let animationStarted = true
+
+            const svg = d3.select("svg")
+            svg.append("line")
+                .attr("x1", (width - barWidth) / 2)
+                .attr("y1", 0)
+                .attr("x2", (width + barWidth) / 2)
+                .attr("y2", 0)
+                .attr("stroke", "black")
+                .attr("stroke-width", 3)
+
+            svg.append("line")
+                .attr("id", "rod")
+                .attr("x1", width / 2)
+                .attr("y1", 0)
+                .attr("x2", l * Math.sin(theta))
+                .attr("y2", l * Math.cos(theta))
+                .attr("stroke", "black")
+
+            svg
+                .on("mousedown", () => {
+                    console.log(d3.event)
+                    animationStarted = false
+
+                })
+                .on("mouseup", () => {
+                    animationStarted = true
+                    window.requestAnimationFrame(animate)
+                })
+
+            svg.append("circle")
+                .attr("id", "ball")
+                .attr("cx", l * Math.sin(theta))
+                .attr("cy", l * Math.cos(theta))
+                .attr("r", 10)
+                .attr("fill", "black")
+
+            function updateScene(svg, theta, l) {
+                svg.select("#rod")
+                    .attr("x2", l * Math.sin(theta) + width / 2)
+                    .attr("y2", l * Math.cos(theta))
+
+                svg.select("#ball")
+                    .attr("cx", l * Math.sin(theta) + width / 2)
+                    .attr("cy", l * Math.cos(theta))
+
+            }
+                
+            const solution = pendulum.solve(1.0, theta, dt)
+            let frame = 0
+            let lastUpdate = 0
+
+            function animate(timestamp) {
+                if (!animationStarted) {
+                    return
+                }
+                
+                updateScene(svg, solution[frame][1], l)
+
+                if (timestamp - lastUpdate > 20) {
+                    frame = (frame + 1) % solution.length
+                    lastUpdate = timestamp
+                }
+                window.requestAnimationFrame(animate)
+            }
+
+            window.requestAnimationFrame(animate)
+        </script>
+    </body>
+</html>
