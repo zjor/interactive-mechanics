@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <style>
+            svg {
+                border: 1px solid goldenrod;
+            }
+        </style>
     </head>
     <body>
         <div>
@@ -15,10 +19,14 @@
             const width = 500
             const height = 300
             
-            const barWidth = 100;
-            const l = 200;
-            const theta = Math.PI / 3
-            const dt = 10.0 / 1000
+            const barWidth = 100
+            let l = 200;
+            let theta = Math.PI / 3
+
+            const originX = width / 2
+            const originY = 0
+
+            const dt = 10.0 / 1000            
 
             let animationStarted = true
 
@@ -41,12 +49,23 @@
 
             svg
                 .on("mousedown", () => {
-                    console.log(d3.event)
+                    const { offsetX, offsetY } = d3.event
+                    const dx = offsetX - originX
+                    const dy = offsetY - originY
+
+                    l = Math.sqrt(dx * dx + dy * dy)
+                    theta = Math.atan(dx / dy)
+
+                    updateScene(svg, theta, l)
+
                     animationStarted = false
 
                 })
                 .on("mouseup", () => {
                     animationStarted = true
+                    
+                    solution = pendulum.solve(l / 200.0, theta, dt)
+                    frame = 0
                     window.requestAnimationFrame(animate)
                 })
 
@@ -68,7 +87,7 @@
 
             }
                 
-            const solution = pendulum.solve(1.0, theta, dt)
+            let solution = pendulum.solve(1.0, theta, dt)
             let frame = 0
             let lastUpdate = 0
 
