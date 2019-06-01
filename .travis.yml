@@ -5,12 +5,11 @@ node_js:
 cache: npm
 
 before_script:
-  - pwd
-  - ls -al
-  - cd ./pendulum && npm install
+  - echo ${TRAVIS_BUILD_DIR}
+  - cd ${TRAVIS_BUILD_DIR}/pendulum && npm install
 
 script:
-  - cd ./pendulum && npm run build
+  - cd ${TRAVIS_BUILD_DIR}/pendulum && npm run build
 
 deploy:
   provider: pages
