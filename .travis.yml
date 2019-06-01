@@ -5,6 +5,8 @@ node_js:
 cache: npm
 
 before_script:
+  - pwd
+  - ls -al
   - cd pendulum && npm install
 
 script:
