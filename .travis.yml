@@ -7,10 +7,10 @@ cache: npm
 before_script:
   - pwd
   - ls -al
-  - cd pendulum && npm install
+  - cd ./pendulum && npm install
 
 script:
-  - cd pendulum && npm run build
+  - cd ./pendulum && npm run build
 
 deploy:
   provider: pages
