@@ -1,3 +1,15 @@
+language: node_js
+node_js:
+  - "v10.15.3"
+
+cache: npm
+
+before_script:
+  - cd pendulum && npm install
+
+script:
+  - cd pendulum && npm run build
+
 deploy:
   provider: pages
   skip_cleanup: true
