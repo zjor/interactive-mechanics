@@ -9,7 +9,7 @@
         }
         .project a {
             text-decoration: none;
-            color: #000;
+            color: #000;            
         }
 
         li.project {
@@ -19,6 +19,11 @@
         }
         .project h3 {
             text-align: center;
+        }
+
+        .project-preview {
+            padding-top: 8px;
+            width: 300px;            
         }
     </style>
     
@@ -38,21 +43,7 @@
     <ul class="project-list">
         <li class="project">
             <a href="pendulum/index.html">
-
-                <svg width="300" height="200">
-                        <line
-                            x1="50"
-                            y1="0"
-                            x2="250"
-                            y2="0"
-                            stroke-width="3"
-                            stroke="black"
-                            />
-                    </svg>
-
-                <!-- <object type="image/svg+xml" data="images/pendulum.svg" height="300">
-                    Your browser doesn't support SVG
-                </object> -->
+                <img class="project-preview" src="images/pendulum.svg" alt="SVG is not supported"></img>
                 <h3>Pendulum</h3>
             </a>
         </li>
