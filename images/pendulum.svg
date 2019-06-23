@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<svg width="500" height="350" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
+        <path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2" 
+                style="stroke:black; stroke-width:1" />
+        </pattern>
+        <radialGradient id="radialGradient">
+            <stop offset="0%" stop-color="grey"/>
+            <stop offset="100%" stop-color="black"/>
+        </radialGradient>        
+    </defs>
+
+    <rect x="150" y="0" width="200" height="10" fill="url(#diagonalHatch)"/>
+
+    <line
+        x1="150"
+        y1="10"
+        x2="350"
+        y2="10"
+        stroke-width="2"
+        stroke="black"
+        />
+    
+    <path d="M245,10 a1,1 0 0,0 10,0" fill="black" />
+
+    <line
+        id="rod"
+        x1="250"
+        y1="10"
+        x2="423"
+        y2="100"
+        stroke-width="2"
+        stroke="black"
+        />
+
+    <circle id="ball" cx="423" cy="100" r="10" fill="url(#radialGradient)"/>
+
+</svg>

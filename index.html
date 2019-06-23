@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        .project-list {
+            display: flex;
+            justify-content: center;
+        }
+        .project a {
+            text-decoration: none;
+            color: #000;            
+        }
+
+        li.project {
+            display: inline-block;
+            list-style: none;
+            border: 1px solid goldenrod;
+        }
+        .project h3 {
+            text-align: center;
+        }
+
+        .project-preview {
+            padding-top: 8px;
+            width: 300px;            
+        }
+    </style>
+    
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72137960-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-72137960-1');
+    </script>
+
+</head>
+
+<body>
+    <ul class="project-list">
+        <li class="project">
+            <a href="pendulum/index.html">
+                <img class="project-preview" src="images/pendulum.svg" alt="SVG is not supported"></img>
+                <h3>Pendulum</h3>
+            </a>
+        </li>
+    </ul>
+</body>
+
+</html>

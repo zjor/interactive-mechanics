@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pendulum simulationls</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.css" integrity="sha384-yFRtMMDnQtDRO8rLpMIKrtPCD5jdktao2TV19YiZYWMDkUR5GQZR/NOVTdquEx1j" crossorigin="anonymous">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/katex.min.js" integrity="sha384-9Nhn55MVVN0/4OFx7EE5kpFBPsEMZxKTCnA+4fqDmg12eCTqGi6+BB2LjY8brQxJ" crossorigin="anonymous"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.2/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+        <style>            
+            svg {
+                border: 1px solid goldenrod;
+            }
+            .container {
+                display: flex;
+                justify-content: center;
+            }
+        </style>
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-72137960-1"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-72137960-1');
+        </script>
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="article">
+                <h1>Pendulum</h1>
+
+                <svg width="500" height="350" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="diagonalHatch" patternUnits="userSpaceOnUse" width="10" height="10">
+                        <path d="M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2" 
+                                style="stroke:black; stroke-width:1" />
+                        </pattern>
+                        <radialGradient id="radialGradient">
+                            <stop offset="0%" stop-color="grey"/>
+                            <stop offset="100%" stop-color="black"/>
+                        </radialGradient>        
+                    </defs>
+                
+                    <rect x="150" y="0" width="200" height="10" fill="url(#diagonalHatch)"/>
+                
+                    <line
+                        x1="150"
+                        y1="10"
+                        x2="350"
+                        y2="10"
+                        stroke-width="2"
+                        stroke="black"
+                        />
+                    
+                    <path d="M245,10 a1,1 0 0,0 10,0" fill="black" />
+                
+                    <line
+                        id="rod"
+                        x1="250"
+                        y1="10"
+                        x2="350"
+                        y2="200"
+                        stroke-width="2"
+                        stroke="black"
+                        />
+                
+                    <circle id="ball" cx="350" cy="200" r="10" fill="url(#radialGradient)"/>
+                
+                </svg>
+
+                <!-- <object id="svg-container" type="image/svg+xml" data="../images/pendulum.svg" width="500" height="350">
+                    Your browser doesn't support SVG
+                </object> -->
+
+                <h2>Equations of motion</h2>
+                <p>
+                    I will derive the equation of motion using Lagrange equation.
+                    $$
+                    \frac{d}{dt}\bigg(\frac{{\partial}L}{{\partial}\dot{q_i}}\bigg)-\frac{{\partial}L}{{\partial}q_i}=0
+                    $$
+    
+                </p>
+
+                <code>
+                    - Define langrangian of the system
+                    - Derive equation of motion
+                    - Convert to the system of linear first order differential equations
+                    - Not of the pendulum period since it's not linearised
+                </code>
+
+            </div>
+        </div>
+        <script src="https://d3js.org/d3.v5.min.js"></script>
+        <script src="./dist/bundle.js"></script>
+        <script>
+
+            const width = 500
+            const height = 300
+            
+            const barWidth = 100
+            let l = 200;
+            let theta = Math.PI / 3
+
+            const originX = width / 2
+            const originY = 0
+
+            const dt = 10.0 / 1000            
+
+            let animationStarted = true
+
+            const svg = d3.select("svg")
+
+            svg
+                .on("mousedown", () => {
+                    const { offsetX, offsetY } = d3.event
+                    const dx = offsetX - originX
+                    const dy = offsetY - originY
+
+                    l = Math.sqrt(dx * dx + dy * dy)
+                    theta = Math.atan(dx / dy)
+
+                    updateScene(svg, theta, l)
+
+                    animationStarted = false
+
+                })
+                .on("mouseup", () => {
+                    animationStarted = true
+                    
+                    solution = pendulum.solve(l / 200.0, theta, dt)
+                    frame = 0
+                    window.requestAnimationFrame(animate)
+                })
+
+            function updateScene(svg, theta, l) {
+                const x = l * Math.sin(theta) + width / 2
+                const y = l * Math.cos(theta)
+                svg.select("#rod")
+                    .attr("x2", x)
+                    .attr("y2", y)                    
+
+                svg.select("#ball")
+                    .attr("cx", x)
+                    .attr("cy", y)
+
+            }
+                
+            let solution = pendulum.solve(1.0, theta, dt)
+            let frame = 0
+            let lastUpdate = 0
+
+            function animate(timestamp) {
+                if (!animationStarted) {
+                    return
+                }
+                
+                updateScene(svg, solution[frame][1], l)
+
+                if (timestamp - lastUpdate > 20) {
+                    frame = (frame + 1) % solution.length
+                    lastUpdate = timestamp
+                }
+                window.requestAnimationFrame(animate)
+            }
+
+            window.requestAnimationFrame(animate)
+        </script>
+    </body>
+</html>

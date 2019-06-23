@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - "v10.15.3"
+
+cache: npm
+
+before_script:
+  - echo ${TRAVIS_BUILD_DIR}
+  - cd ${TRAVIS_BUILD_DIR}/pendulum && npm install
+
+script:
+  - cd ${TRAVIS_BUILD_DIR}/pendulum && npm run build
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  on:
+    branch: master
